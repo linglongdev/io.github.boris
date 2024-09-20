@@ -1,0 +1,56 @@
+From ad1b25ee01c938ac836a2b3ea4498781e3112f20 Mon Sep 17 00:00:00 2001
+From: wjyrich <1071633242@qq.com>
+Date: Thu, 19 Sep 2024 19:44:47 +0800
+Subject: [PATCH] install
+
+---
+ boris.desktop |  5 ++---
+ boris.pro     | 10 +++++++++-
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/boris.desktop b/boris.desktop
+index 1ffbfb3..dbc1b2c 100644
+--- a/boris.desktop
++++ b/boris.desktop
+@@ -2,10 +2,9 @@
+ Version=1.0
+ Encoding=UTF-8
+ Name=Boris
+-Exec=/home/muldjord/programming/boris/Boris
+-Path=/home/muldjord/programming/boris
++Exec=Boris
+ StartupNotify=false
+ Terminal=false
+ Type=Application
+-Icon=/home/muldjord/programming/boris/icons/icon.png
++Icon=Boris
+ Categories=Game;Simulation;Qt
+diff --git a/boris.pro b/boris.pro
+index 477b0de..172ddba 100755
+--- a/boris.pro
++++ b/boris.pro
+@@ -8,7 +8,7 @@ DEFINES+=VERSION=\\\"$$VERSION\\\"
+ win32:INCLUDEPATH += $$OUT_PWD/SFML-2.5.1/include
+ win32:LIBS += -L$$OUT_PWD/SFML-2.5.1/lib
+ LIBS += -lsfml-audio
+-
++INCLUDEPATH += $$PREFIX/include
+ # Input
+ HEADERS += src/mainwindow.h \
+            src/settings.h \
+@@ -46,3 +46,11 @@ RESOURCES += boris.qrc
+ TRANSLATIONS = boris_da_DK.ts
+ RC_FILE = boris.rc
+ ICON = icon.icns
++
++target.path = $$PREFIX/bin
++desktop.files = boris.desktop
++desktop.path = $$PREFIX/share/applications/
++icons.path = $$PREFIX/share/icons/hicolor/apps/
++icons.files = icons/Boris.png
++
++INSTALLS += target desktop icons
+\ No newline at end of file
+-- 
+2.43.4
+

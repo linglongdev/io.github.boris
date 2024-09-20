@@ -1,0 +1,59 @@
+version: "1"
+
+package:
+  id: io.github.boris
+  name: boris
+  version: 3.6.1.1
+  kind: app
+  description: |
+    A scriptable desktop screenmate written in Qt (for graphics) and SFML (for sound)
+
+command:
+  - /opt/apps/io.github.boris/files/bin/Boris
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/muldjord/boris.git
+    version: master
+    commit: 92a90b9953590f485c41d30afe2fcde714ba4c92
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libs/libsfml/libsfml-audio2.5_2.5.1+dfsg-1_amd64.deb
+    digest: 38c9310d921076e5a9adbccfaf8499a496b6cd4f59b6eabd62fe3052a337287f
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libs/libsfml/libsfml-graphics2.5_2.5.1+dfsg-1_amd64.deb
+    digest: 1dbd11df4364419e380c3c184b99bc39007f89e6711186b3435e8ffa24ed82de
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libs/libsfml/libsfml-network2.5_2.5.1+dfsg-1_amd64.deb
+    digest: 150cf89e6f9afe353baa77e650dda0f66a70f8b67b2b7139677beb2adee4d965
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libs/libsfml/libsfml-system2.5_2.5.1+dfsg-1_amd64.deb
+    digest: bf8614b812edf939ac74fc04a97f3c3d4ea731a8c2ff032f8ce85de5e04b608f
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libs/libsfml/libsfml-window2.5_2.5.1+dfsg-1_amd64.deb
+    digest: fd57b58d937f9332c2aab50447f1c216311a0bd5a6fff990c964bc6a3024e188
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libs/libsfml/libsfml-dev_2.5.1+dfsg-1_amd64.deb
+    digest: f1bc890264c5f07f9ed1092ccfe1bfc45691255b3799171894f9d2a96576c4cd
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/o/openal-soft/libopenal1_1.19.1-1_amd64.deb
+    digest: 95fd81907a174bec93abcd2720fc14f3b16715feac0bd378b8bc41b819e66a86
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libv/libvorbis/libvorbisfile3_1.3.6-2_amd64.deb
+    digest: 7bb4e70414c9f8a9cfdc86a64eb8659e889fa74e1f54a8cfc050ec5b6c9faace
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/s/sndio/libsndio7.0_1.5.0-3_amd64.deb
+    digest: af3b9425fca1abad25be51774fec175e75f1b92f7a1909e9c27bbbf644c23550
+
+build: |
+  bash ./install_dep linglong/sources $PREFIX
+
+  cd /project/linglong/sources/boris.git
+  git apply ../../../0001-install.patch
+  cp icons/icon.png icons/Boris.png
+  qmake -makefile PREFIX=${PREFIX} LIB_INSTALL_DIR=${PREFIX}/lib/${TRIPLET}
+  make -j$(nproc)
+  make install
+
